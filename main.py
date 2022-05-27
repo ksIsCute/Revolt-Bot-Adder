@@ -29,4 +29,3 @@ while(True):
   print(f"[COMPLETED] - Ignored {members} users.")
   input("[COMPLETED] - Press ENTER to continue / search another server.")
   os.system('cls' if os.name == 'nt' else 'clear')
-  
