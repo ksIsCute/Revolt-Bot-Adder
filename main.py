@@ -13,7 +13,7 @@ while(True):
       if len(server) == len("01F80118K1F2EYD9XAMCPQ0BCT"):
         serverarray.append(server)
       else:
-        print('Please enter a valid server ID!')
+        print('[STARTUP] - Please enter a valid server ID!')
   else:
     print("\n[STARTUP] - Alright, lets stick to one shall we?")
     target = input("[STARTUP] - Enter Server Id:\n")
@@ -25,6 +25,9 @@ while(True):
   friendcount = 0
   bots = 0
   members = 0
+  togglefriends = input("[STARTUP] - Do you want to activate mass friending? (friends everyone in a server if possible)\n")
+  if togglefriends.lower() == "y":
+    print("[STARTUP] - Great, we're activated!")
   for i in serverarray:
     server = requests.get(
       f"https://api.revolt.chat/servers/{i}/members",
@@ -48,17 +51,18 @@ while(True):
       except KeyError:
         members += 1
         totalmembers += 1
-        try:
-          fren = requests.put(f"https://api.revolt.chat/users/{member['username']}/friend", headers={"x-session-token": os.environ['token']})
-          if fren.json()['username']:
-            print(f"[FRIENDING] - Added {fren.json()['username']}!")
-            friendcount += 1
-          else:
+        if togglefriends.lower() == "y":
+          try:
+            fren = requests.put(f"https://api.revolt.chat/users/{member['username']}/friend", headers={"x-session-token": os.environ['token']})
+            if fren.json()['username']:
+              print(f"[FRIENDING] - Added {fren.json()['username']}!")
+              friendcount += 1
+            else:
+              print('\033[31m' + f"[FRIENDING] - Couldn't send a friend request to {member['username']}!")
+              print('\033[39m')
+          except:
             print('\033[31m' + f"[FRIENDING] - Couldn't send a friend request to {member['username']}!")
             print('\033[39m')
-        except:
-          print('\033[31m' + f"[FRIENDING] - Couldn't send a friend request to {member['username']}!")
-          print('\033[39m')
     
         print('\033[31m' + f"[ERROR] - Didnt add {member['username']} to the server.")
         print('\033[39m')
@@ -67,7 +71,8 @@ while(True):
   print(f"[STATS] - Iterated through a total of {bots + members} accounts.")
   print(f"[STATS] - Added {bots} bots.")
   print(f"[STATS] - Ignored {members} users.")
-  print(f"[STATS] - Friended {friendcount} users")
+  if togglefriends.lower() == "y":
+    print(f"[STATS] - Friended {friendcount} users")
   if bots + members < totalbots + totalmembers:
     print(f"[STATS] - You've searched through {totalbots + totalmembers} accounts this session!")
     print(f"[STATS] - Consisting of {totalbots} bots and {totalmembers} users!")
