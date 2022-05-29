@@ -7,7 +7,7 @@ while(True):
   serverarray = []
   if start.lower() == "y":
     print("[STARTUP] - Alright, activating multiple server mode!")
-    num = input("\n[STARTUP] - How many servers do you want to add?\n")
+    num = input("\n[STARTUP] - How many servers do you want to scrape?\n")
     for i in range(0, int(num)):
       server = input(f"\n[STARTUP] - Enter Server Id #{i + 1}:\n")
       if len(server) == len("01F80118K1F2EYD9XAMCPQ0BCT"):
@@ -25,6 +25,7 @@ while(True):
   friendcount = 0
   bots = 0
   members = 0
+  server = input("[STARTUP] - Please enter the server ID to add the found bots into:\n")
   togglefriends = input("[STARTUP] - Do you want to activate mass friending? (friends everyone in a server if possible)\n")
   if togglefriends.lower() == "y":
     print("[STARTUP] - Great, we're activated!")
@@ -40,7 +41,7 @@ while(True):
           requests.post(
             f"https://api.revolt.chat/bots/{member['_id']}/invite",
             headers={"x-session-token": os.environ['token']},
-            json = {"server": "01G214R5HRG1Q21PYMGGXPQDVY"}
+            json = {"server": server}
           )
           print(f"[VALID] - Added {member['username']} to the server")
           bots += 1
