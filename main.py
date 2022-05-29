@@ -22,6 +22,7 @@ while(True):
       print('\033[39m')
       continue
     serverarray.append(target)
+  friendcount = 0
   bots = 0
   members = 0
   for i in serverarray:
@@ -38,7 +39,7 @@ while(True):
             headers={"x-session-token": os.environ['token']},
             json = {"server": "01G214R5HRG1Q21PYMGGXPQDVY"}
           )
-          print(f"[VALID] - Added {member['username']}")
+          print(f"[VALID] - Added {member['username']} to the server")
           bots += 1
           totalbots += 1
         except:
@@ -48,9 +49,10 @@ while(True):
         members += 1
         totalmembers += 1
         try:
-          fren = requests.put(f"https://api.revolt.chat/users/{member['username']}/friend", header={"x-session-token": os.environ['token']})
+          fren = requests.put(f"https://api.revolt.chat/users/{member['username']}/friend", headers={"x-session-token": os.environ['token']})
           if fren.json()['username']:
             print(f"[FRIENDING] - Added {fren.json()['username']}!")
+            friendcount += 1
           else:
             print('\033[31m' + f"[FRIENDING] - Couldn't send a friend request to {member['username']}!")
             print('\033[39m')
@@ -58,13 +60,14 @@ while(True):
           print('\033[31m' + f"[FRIENDING] - Couldn't send a friend request to {member['username']}!")
           print('\033[39m')
     
-        print('\033[31m' + f"[ERROR] - Didnt add {member['username']}.")
+        print('\033[31m' + f"[ERROR] - Didnt add {member['username']} to the server.")
         print('\033[39m')
         pass
   print(f"[COMPLETED] - Completed in {round(time.time() - starttime, 2)}s")
   print(f"[COMPLETED] - Iterated through a total of {bots + members} accounts.")
   print(f"[COMPLETED] - Added {bots} bots.")
   print(f"[COMPLETED] - Ignored {members} users.")
+  print(f"[COMPLETED] - Friended {friendcount} users")
   if bots + members < totalbots + totalmembers:
     print(f"[STATS] - You've searched through {totalbots + totalmembers} accounts this session!")
     print(f"[STATS] - Consisting of {totalbots} bots and {totalmembers} users!")
