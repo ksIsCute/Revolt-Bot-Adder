@@ -63,11 +63,11 @@ while(True):
         print('\033[31m' + f"[ERROR] - Didnt add {member['username']} to the server.")
         print('\033[39m')
         pass
-  print(f"[COMPLETED] - Completed in {round(time.time() - starttime, 2)}s")
-  print(f"[COMPLETED] - Iterated through a total of {bots + members} accounts.")
-  print(f"[COMPLETED] - Added {bots} bots.")
-  print(f"[COMPLETED] - Ignored {members} users.")
-  print(f"[COMPLETED] - Friended {friendcount} users")
+  print(f"[STATS] - Completed in {round(time.time() - starttime, 2)}s")
+  print(f"[STATS] - Iterated through a total of {bots + members} accounts.")
+  print(f"[STATS] - Added {bots} bots.")
+  print(f"[STATS] - Ignored {members} users.")
+  print(f"[STATS] - Friended {friendcount} users")
   if bots + members < totalbots + totalmembers:
     print(f"[STATS] - You've searched through {totalbots + totalmembers} accounts this session!")
     print(f"[STATS] - Consisting of {totalbots} bots and {totalmembers} users!")
