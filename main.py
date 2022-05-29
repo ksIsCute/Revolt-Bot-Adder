@@ -49,7 +49,7 @@ while(True):
     )
     for member in server.json()['users']:
       try:
-        member['bot']
+        print(member['bot'])
         try:
           requests.post(
             f"https://api.revolt.chat/bots/{member['_id']}/invite",
