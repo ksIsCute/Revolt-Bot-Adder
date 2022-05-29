@@ -12,6 +12,12 @@ while(True):
       server = input(f"\n[STARTUP] - Enter Server Id #{i + 1}:\n")
       if len(server) == len("01F80118K1F2EYD9XAMCPQ0BCT"):
         serverarray.append(server)
+        serverinfo = requests.get(
+          f"https://api.revolt.chat/servers/{server}",
+          headers = {"x-session-token": os.environ['token']}
+        )
+        print(f"[STARTUP] - Added {serverinfo.json()['name']} to your serverlist.")
+        time.sleep(2)
       else:
         print('[STARTUP] - Please enter a valid server ID!')
   else:
@@ -22,9 +28,20 @@ while(True):
       print('\033[39m')
       continue
     serverarray.append(target)
+    serverinfo = requests.get(
+      f"https://api.revolt.chat/servers/{target}",
+      headers = {"x-session-token": os.environ['token']}
+    )
+    print(f"[STARTUP] - Scraping bots from {serverinfo.json()['name']}\n")
   bots = 0
   members = 0
   chosenserver = input("[STARTUP] - Please enter the server ID to add the found bots into:\n")
+  serverinfo = requests.get(
+      f"https://api.revolt.chat/servers/{chosenserver}",
+      headers = {"x-session-token": os.environ['token']}
+  )
+  print(f"[STARTUP] - Adding bots to {serverinfo.json()['name']}\n")
+  time.sleep(2)
   for i in serverarray:
     server = requests.get(
       f"https://api.revolt.chat/servers/{i}/members",
