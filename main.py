@@ -24,7 +24,7 @@ while(True):
     serverarray.append(target)
   bots = 0
   members = 0
-  server = input("[STARTUP] - Please enter the server ID to add the found bots into:\n")
+  chosenserver = input("[STARTUP] - Please enter the server ID to add the found bots into:\n")
   for i in serverarray:
     server = requests.get(
       f"https://api.revolt.chat/servers/{i}/members",
@@ -37,7 +37,7 @@ while(True):
           requests.post(
             f"https://api.revolt.chat/bots/{member['_id']}/invite",
             headers={"x-session-token": os.environ['token']},
-            json = {"server": server}
+            json = {"server": chosenserver}
           )
           print(f"[VALID] - Added {member['username']} to the server")
           bots += 1
